@@ -26,7 +26,7 @@ parser = argparse.ArgumentParser(description='Search a structured LaTeX document
       their relationships, as well as generate master .tex files that govern each level of directories and compile them into a .pdf file, all in a single step! \
       Great for creating and organizing large and complex documents that need constant reviews or edits.')
 
-parser.add_argument('-m','--machine',action='store',dest='machine',help='The 3-letter code of the machine compiling the document (OSX/LNX/WIN)',default='')
+#parser.add_argument('-m','--machine',action='store',dest='machine',help='The 3-letter code of the machine compiling the document (OSX/LNX/WIN)',default='')
 parser.add_argument('-t','--title',action='store',dest='title',help='Your document\'s title',default='')
 parser.add_argument('-p','--tex-prefix',action='store',dest='tex_prefix',help='The prefix name for your LaTeX document',default='M-L0')
 parser.add_argument('-a','--author',action='store',dest='author',help='The author\'s name',default='Wasut \'Khun\' Pornpatcharapong')
@@ -44,7 +44,7 @@ args = parser.parse_args()
 
 # Collecting variables
 author = args.author
-machine = args.machine
+#machine = args.machine
 tex_prefix = args.tex_prefix
 is_english = args.is_english
 is_book = args.is_book
@@ -63,10 +63,14 @@ hyperlink = args.hyperlink
 # If no -m and -t tags are specified, prompt the user. The reason I do this is sometimes I need to compile quickly but don't want to pause when typing commands with flags.
 # Because assigning document title take a little time, I would rather separate this process to the user prompt instead.
 
-if (title == '') or (machine == ''):
-   machine = input('Which machine are you running on? (OSX/LNX/WIN): ')
-   print('What\'s your document title? Typing in Thai is fine: ')
+if title == '':
+   print('What\'s your document title? Typing in any unicode characters is fine.')
    title = input()
+
+#if (title == '') or (machine == ''):
+#   machine = input('Which machine are you running on? (OSX/LNX/WIN): ')
+#   print('What\'s your document title? Typing in Thai is fine: ')
+#   title = input()
 
 # If the bib flag is toggled on and there are no inputs to the --bib-style field or the --bib-fullpath entry, prompt the user!!
 # This design choice is made because in the situation where we work with multiple machines, paths can be different and users have to specify them explicitly.
@@ -113,8 +117,8 @@ nodes_info = dir_tree.get_node_relations(dir_tree.root)
 # generator methods now take bib_style and bib_path as argument.
 # For simplicity, this update only supports one bib file.
 if not is_book:
-   master_generators.generator(is_english,machine,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,extra,created_date,is_titlepage,title_page)
+   master_generators.generator(is_english,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,extra,created_date,is_titlepage,title_page)
 else:
-   master_generators.generator_book(is_english,machine,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,extra,created_date,is_titlepage,title_page)
+   master_generators.generator_book(is_english,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,extra,created_date,is_titlepage,title_page)
 
 process.compile_doc(is_english,dir_tree.root.val,with_bib,tex_prefix+'.pdf')
