@@ -10,7 +10,7 @@ import os,re,sys
 import datetime
 import subprocess as sp
 
-sys.path.append(os.environ['HOME']+'/Codes/Python/Modules')
+#sys.path.append(os.environ['HOME']+'/Codes/Python/Modules')
 
 from latexpython import dirtree,master_generators,process,exceptions
 Node = dirtree.Node
@@ -32,6 +32,7 @@ parser.add_argument('-p','--tex-prefix',action='store',dest='tex_prefix',help='T
 parser.add_argument('-a','--author',action='store',dest='author',help='The author\'s name',default='Wasut \'Khun\' Pornpatcharapong')
 parser.add_argument('-d','--date',action='store',dest='created_date',help='The original created date of the document',default='0')
 parser.add_argument('-l','--link',action='store_true',dest='hyperlink',help='Enable hyperlink in the document',default=False)
+parser.add_argument('--tp','--title-page',action='store',dest='title_page',help='Parse your own title page.',default='')
 parser.add_argument('--book',action='store_true',dest='is_book',help='Use this flag to compile the document as a book',default=False)
 parser.add_argument('--bib',action='store_true',dest='with_bib',help='Use this flag to compile the document with bibliography',default=False)
 parser.add_argument('--bib-style',action='store',dest='bib_style',help='Enter bib style (biblatex format)',default='')
@@ -49,6 +50,7 @@ is_english = args.is_english
 is_book = args.is_book
 with_bib = args.with_bib
 extra = args.extra
+title_page = args.title_page
 # For now only concern documents with one bib file, but I already have a scheme for documents with more than one bib file - 
 # the --bib-fullpath field should have the format "path1,path2" and the code shall split the paths at commas into the list and count them.
 # Just to make the scheme works first, let's KISS (Keep It Simple and Stupid)!!
