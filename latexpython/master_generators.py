@@ -146,7 +146,7 @@ def create_master_book_root(is_english,title,author,root_tuple,hyperlink,with_bi
    root_file_obj.close()
 
 
-def create_master_root(is_english,title,author,root_tuple,hyperlink,with_bib,title_page_content,tbib_style='',bib_path='',extra_content='',created_date=datetime.date.today(),is_titlepage=False):
+def create_master_root(is_english,title,author,root_tuple,hyperlink,with_bib,title_page_content,bib_style='',bib_path='',extra_content='',created_date=datetime.date.today(),is_titlepage=False):
    path_at_node = dirtree.get_path_at_this_node(root_tuple[2],root_tuple[0])
    root_file_obj = open(os.path.join(path_at_node,'M-L0.tex'),'w')
 
