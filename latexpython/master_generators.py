@@ -120,7 +120,7 @@ def non_root_body(ancestors_list,current_node,children_list,file_obj):
          child_master_tex_prefix = 'M-L{0}'.format(level_num)
          file_obj.write('\\subimport{{./{0}/}}{{{1}}}\n'.format(child,child_master_tex_prefix))
 
-def create_master_book_root(is_english,title,author,root_tuple,hyperlink,with_bib,bib_style='',bib_path='',extra_content='',created_date=datetime.date.today(),is_titlepage=False,title_page_content):
+def create_master_book_root(is_english,title,author,root_tuple,hyperlink,with_bib,title_page_content,bib_style='',bib_path='',extra_content='',created_date=datetime.date.today(),is_titlepage=False):
    path_at_node = dirtree.get_path_at_this_node(root_tuple[2],root_tuple[0])
    root_file_obj = open(os.path.join(path_at_node,'M-L0.tex'),'w')
 
@@ -146,7 +146,7 @@ def create_master_book_root(is_english,title,author,root_tuple,hyperlink,with_bi
    root_file_obj.close()
 
 
-def create_master_root(is_english,title,author,root_tuple,hyperlink,with_bib,bib_style='',bib_path='',extra_content='',created_date=datetime.date.today(),is_titlepage=False,title_page_content):
+def create_master_root(is_english,title,author,root_tuple,hyperlink,with_bib,title_page_content,tbib_style='',bib_path='',extra_content='',created_date=datetime.date.today(),is_titlepage=False):
    path_at_node = dirtree.get_path_at_this_node(root_tuple[2],root_tuple[0])
    root_file_obj = open(os.path.join(path_at_node,'M-L0.tex'),'w')
 
@@ -181,16 +181,16 @@ def create_master_non_root(node_tuple):
 
    node_file_obj.close()
 
-def generator_book(is_english,title,author,nodes_info,hyperlink,with_bib,bib_style='',bib_path='',extra_content='',created_date=datetime.date.today()):
+def generator_book(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page_content,with_bib,bib_style='',bib_path='',extra_content='',created_date=datetime.date.today()):
    for node_tuple in nodes_info:
       if node_tuple[3] != []:
          is_not_root_pattern = re.compile('^L')
          if is_not_root_pattern.search(node_tuple[0]):
             create_master_non_root(node_tuple)
          else:
-            create_master_book_root(is_english,title,author,node_tuple,hyperlink,with_bib,bib_style,bib_path,extra_content,created_date,is_titlepage,title_page_content)
+            create_master_book_root(is_english,title,author,node_tuple,hyperlink,with_bib,title_page_content,bib_style,bib_path,extra_content,created_date,is_titlepage)
 
-def generator(is_english,title,author,nodes_info,hyperlink,with_bib,bib_style='',bib_path='',extra_content='',created_date=datetime.date.today()):
+def generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page_content,with_bib,bib_style='',bib_path='',extra_content='',created_date=datetime.date.today()):
    # This is probably the trickiest method here. 'nodes_info' is a result of the information query from the tree and is a list of 4-elem tuples containing info for all nodes.
    # The condition here is traversing all nodes except the leaves
 
@@ -202,4 +202,4 @@ def generator(is_english,title,author,nodes_info,hyperlink,with_bib,bib_style=''
             # Means this is not a root, so simply create a master file
             create_master_non_root(node_tuple)
          else:
-            create_master_root(is_english,title,author,node_tuple,hyperlink,with_bib,bib_style,bib_path,extra_content,created_date,is_titlepage,title_page_content)
+            create_master_root(is_english,title,author,node_tuple,hyperlink,with_bib,title_page_content,bib_style,bib_path,extra_content,created_date,is_titlepage)

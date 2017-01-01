@@ -117,8 +117,8 @@ nodes_info = dir_tree.get_node_relations(dir_tree.root)
 # generator methods now take bib_style and bib_path as argument.
 # For simplicity, this update only supports one bib file.
 if not is_book:
-   master_generators.generator(is_english,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,preamble,created_date,is_titlepage,title_page)
+   master_generators.generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,with_bib,bib_style,bib_path,preamble,created_date,is_titlepage,title_page)
 else:
-   master_generators.generator_book(is_english,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,preamble,created_date,is_titlepage,title_page)
+   master_generators.generator_book(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,with_bib,bib_style,bib_path,preamble,created_date,is_titlepage,title_page)
 
 process.compile_doc(is_english,dir_tree.root.val,with_bib,tex_prefix+'.pdf')
