@@ -38,7 +38,7 @@ parser.add_argument('--bib',action='store_true',dest='with_bib',help='Use this f
 parser.add_argument('--bib-style',action='store',dest='bib_style',help='Enter bib style (biblatex format)',default='')
 parser.add_argument('--bib-fullpath',action='store',dest='bib_path',help='This must be specified if the --bib flag is toggled on.',default='')
 parser.add_argument('--english',action='store_true',dest='is_english',help='Use pdflatex as a compiler with English language documents',default=True)
-parser.add_argument('--extra',action='store',dest='extra',help='Use this flag to add document-specific preambles via a text file',default='')
+parser.add_argument('--preamble',action='store',dest='preamble',help='Use this flag to add document-specific preambles via a text file',default='')
 parser.add_argument('--thai',action='store_false',dest='is_english',help='Use xelatex as a compiler with Thai language documents',default=True)
 args = parser.parse_args()
 
@@ -49,7 +49,7 @@ tex_prefix = args.tex_prefix
 is_english = args.is_english
 is_book = args.is_book
 with_bib = args.with_bib
-extra = args.extra
+preamble = args.preamble
 title_page = args.title_page
 # For now only concern documents with one bib file, but I already have a scheme for documents with more than one bib file - 
 # the --bib-fullpath field should have the format "path1,path2" and the code shall split the paths at commas into the list and count them.
@@ -117,8 +117,8 @@ nodes_info = dir_tree.get_node_relations(dir_tree.root)
 # generator methods now take bib_style and bib_path as argument.
 # For simplicity, this update only supports one bib file.
 if not is_book:
-   master_generators.generator(is_english,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,extra,created_date,is_titlepage,title_page)
+   master_generators.generator(is_english,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,preamble,created_date,is_titlepage,title_page)
 else:
-   master_generators.generator_book(is_english,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,extra,created_date,is_titlepage,title_page)
+   master_generators.generator_book(is_english,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,preamble,created_date,is_titlepage,title_page)
 
 process.compile_doc(is_english,dir_tree.root.val,with_bib,tex_prefix+'.pdf')
