@@ -65,7 +65,7 @@
   </li>
   <li>Example usage (assumed that you have created a structure outlined in <a href="#dirstructure">Directory Structure</a> section)</li>
   <ul>
-    <li><code>pytexarchiver.py --preamble "$(<preamble_filename)" --title-page "$(<titlepage_filename)" --bib --bib-style "chem-acs" --bib-fullpath "your-path-to-bib-file"</code></li>
+    <li><code>pytexarchiver.py --preamble "&dollar;(&lt;preamble_filename)" --title-page "&dollar;(&lt;titlepage_filename)" --bib --bib-style "chem-acs" --bib-fullpath "your-path-to-bib-file"</code></li>
   </ul>
 </ul>
 
