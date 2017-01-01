@@ -92,6 +92,13 @@ if date != '0' and dp.search(date):
 else:
    created_date = datetime.date.today()
 
+# If title_page=='', then we manually set the is_titlepage flag to 'False'
+
+if title_page == '':
+   is_titlepage = False
+else:
+   is_titlepage = True
+
 cwd = os.getcwd()
 
 # Root node initialization
@@ -106,8 +113,8 @@ nodes_info = dir_tree.get_node_relations(dir_tree.root)
 # generator methods now take bib_style and bib_path as argument.
 # For simplicity, this update only supports one bib file.
 if not is_book:
-   master_generators.generator(is_english,machine,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,extra,created_date)
+   master_generators.generator(is_english,machine,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,extra,created_date,is_titlepage,title_page)
 else:
-   master_generators.generator_book(is_english,machine,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,extra,created_date)
+   master_generators.generator_book(is_english,machine,title,author,nodes_info,hyperlink,with_bib,bib_style,bib_path,extra,created_date,is_titlepage,title_page)
 
 process.compile_doc(is_english,dir_tree.root.val,with_bib,tex_prefix+'.pdf')
