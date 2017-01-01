@@ -188,7 +188,7 @@ def generator_book(is_english,machine,title,author,nodes_info,hyperlink,with_bib
          if is_not_root_pattern.search(node_tuple[0]):
             create_master_non_root(node_tuple)
          else:
-            create_master_book_root(is_english,machine,title,author,node_tuple,hyperlink,with_bib,bib_style,bib_path,extra_content,created_date)
+            create_master_book_root(is_english,machine,title,author,node_tuple,hyperlink,with_bib,bib_style,bib_path,extra_content,created_date,is_titlepage,title_page_content)
 
 def generator(is_english,machine,title,author,nodes_info,hyperlink,with_bib,bib_style='',bib_path='',extra_content='',created_date=datetime.date.today()):
    # This is probably the trickiest method here. 'nodes_info' is a result of the information query from the tree and is a list of 4-elem tuples containing info for all nodes.
@@ -202,4 +202,4 @@ def generator(is_english,machine,title,author,nodes_info,hyperlink,with_bib,bib_
             # Means this is not a root, so simply create a master file
             create_master_non_root(node_tuple)
          else:
-            create_master_root(is_english,machine,title,author,node_tuple,hyperlink,with_bib,bib_style,bib_path,extra_content,created_date)
+            create_master_root(is_english,machine,title,author,node_tuple,hyperlink,with_bib,bib_style,bib_path,extra_content,created_date,is_titlepage,title_page_content)
