@@ -6,27 +6,27 @@ import datetime
 
 thai_month_dict = {1:'มกราคม',2:'กุมภาพันธ์',3:'มีนาคม',4:'เมษายน',5:'พฤษภาคม',6:'มิถุนายน',7:'กรกฎาคม',8:'สิงหาคม',9:'กันยายน',10:'ตุลาคม',11:'พฤศจิกายน',12:'ธันวาคม'}
 
-preamble_paths_eng = {'OSX':'/Users/Khun/Documents/TeX/preambles/ResearchStandard',\
-                      'LNX':'/home/wpornpat/TeX/preambles/ResearchStandard',\
-                      'WIN':'/home/Khun/TeX/preambles/ResearchStandard'}
+#preamble_paths_eng = {'OSX':'/Users/Khun/Documents/TeX/preambles/ResearchStandard',\
+#                      'LNX':'/home/wpornpat/TeX/preambles/ResearchStandard',\
+#                      'WIN':'/home/Khun/TeX/preambles/ResearchStandard'}
 
-preamble_paths_thai = {'OSX':'/Users/Khun/Documents/TeX/preambles/ThaiStandardMac',\
-                      'LNX':'/home/wpornpat/TeX/preambles/ThaiStandard',\
-                      'WIN':'/home/Khun/TeX/preambles/ThaiStandard'}
+#preamble_paths_thai = {'OSX':'/Users/Khun/Documents/TeX/preambles/ThaiStandardMac',\
+#                      'LNX':'/home/wpornpat/TeX/preambles/ThaiStandard',\
+#                      'WIN':'/home/Khun/TeX/preambles/ThaiStandard'}
 
-def root_head(is_english,machine,file_obj):
+def root_head(file_obj):
    file_obj.write('\\documentclass{article}\n\n')
-   if is_english:
-      file_obj.write('\\input{{{0}}}\n\n'.format(preamble_paths_eng[machine]))
-   else:
-      file_obj.write('\\input{{{0}}}\n\n'.format(preamble_paths_thai[machine]))
+#   if is_english:
+#      file_obj.write('\\input{{{0}}}\n\n'.format(preamble_paths_eng[machine]))
+#   else:
+#      file_obj.write('\\input{{{0}}}\n\n'.format(preamble_paths_thai[machine]))
 
-def root_book_head(is_english,machine,file_obj):
+def root_book_head(file_obj):
    file_obj.write('\\documentclass{book}\n\n')
-   if is_english:
-      file_obj.write('\\input{{{0}}}\n\n'.format(preamble_paths_eng[machine]))
-   else:
-      file_obj.write('\\input{{{0}}}\n\n'.format(preamble_paths_thai[machine]))
+#   if is_english:
+#      file_obj.write('\\input{{{0}}}\n\n'.format(preamble_paths_eng[machine]))
+#   else:
+#      file_obj.write('\\input{{{0}}}\n\n'.format(preamble_paths_thai[machine]))
 
 def root_begin_doc(file_obj):
    file_obj.write('\\begin{document}\n')
@@ -124,7 +124,7 @@ def create_master_book_root(is_english,machine,title,author,root_tuple,hyperlink
    path_at_node = dirtree.get_path_at_this_node(root_tuple[2],root_tuple[0])
    root_file_obj = open(os.path.join(path_at_node,'M-L0.tex'),'w')
 
-   root_book_head(is_english,machine,root_file_obj)
+   root_book_head(root_file_obj)
    # PLACEHOLDER FOR EXTRA CONTENTS CODE!!
    root_file_obj.write(extra_content+'\n')
    if with_bib:
@@ -150,7 +150,7 @@ def create_master_root(is_english,machine,title,author,root_tuple,hyperlink,with
    path_at_node = dirtree.get_path_at_this_node(root_tuple[2],root_tuple[0])
    root_file_obj = open(os.path.join(path_at_node,'M-L0.tex'),'w')
 
-   root_head(is_english,machine,root_file_obj)
+   root_head(root_file_obj)
    root_file_obj.write(extra_content+'\n')
    # PLACEHOLDER FOR EXTRA CONTENTS CODE!!
    if with_bib:
