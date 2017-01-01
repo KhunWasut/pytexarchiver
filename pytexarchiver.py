@@ -63,7 +63,7 @@ hyperlink = args.hyperlink
 # If no -m and -t tags are specified, prompt the user. The reason I do this is sometimes I need to compile quickly but don't want to pause when typing commands with flags.
 # Because assigning document title take a little time, I would rather separate this process to the user prompt instead.
 
-if title == '':
+if title == '' and title_page == '':
    print('What\'s your document title? Typing in any unicode characters is fine.')
    title = input()
 
@@ -117,8 +117,8 @@ nodes_info = dir_tree.get_node_relations(dir_tree.root)
 # generator methods now take bib_style and bib_path as argument.
 # For simplicity, this update only supports one bib file.
 if not is_book:
-   master_generators.generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,with_bib,bib_style,bib_path,preamble,created_date,is_titlepage,title_page)
+   master_generators.generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,with_bib,bib_style,bib_path,preamble,created_date)
 else:
-   master_generators.generator_book(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,with_bib,bib_style,bib_path,preamble,created_date,is_titlepage,title_page)
+   master_generators.generator_book(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,with_bib,bib_style,bib_path,preamble,created_date)
 
 process.compile_doc(is_english,dir_tree.root.val,with_bib,tex_prefix+'.pdf')
