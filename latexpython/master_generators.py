@@ -120,7 +120,7 @@ def non_root_body(ancestors_list,current_node,children_list,file_obj):
          child_master_tex_prefix = 'M-L{0}'.format(level_num)
          file_obj.write('\\subimport{{./{0}/}}{{{1}}}\n'.format(child,child_master_tex_prefix))
 
-def create_master_book_root(is_english,machine,title,author,root_tuple,hyperlink,with_bib,bib_style='',bib_path='',extra_content='',created_date=datetime.date.today()):
+def create_master_book_root(is_english,machine,title,author,root_tuple,hyperlink,with_bib,bib_style='',bib_path='',extra_content='',created_date=datetime.date.today(),is_titlepage=False,title_page_content):
    path_at_node = dirtree.get_path_at_this_node(root_tuple[2],root_tuple[0])
    root_file_obj = open(os.path.join(path_at_node,'M-L0.tex'),'w')
 
@@ -136,14 +136,17 @@ def create_master_book_root(is_english,machine,title,author,root_tuple,hyperlink
       root_file_obj.write('\\usepackage{hyperref}\n')
       root_file_obj.write('\\hypersetup{linktocpage}\n')    # Not 100% correct. Will make adjustments here on better hyperref settings later but for now this works.
    root_begin_doc(root_file_obj)
-   root_book_title(is_english,title,author,root_file_obj,created_date)
+   if is_titlepage:
+      root_file_obj.write('{0}'.format(title_page_content))
+   else:
+      root_book_title(is_english,title,author,root_file_obj,created_date)
    root_book_body(root_tuple[2],root_tuple[0],root_tuple[3],root_file_obj)
    root_end(root_file_obj)
 
    root_file_obj.close()
 
 
-def create_master_root(is_english,machine,title,author,root_tuple,hyperlink,with_bib,bib_style='',bib_path='',extra_content='',created_date=datetime.date.today()):
+def create_master_root(is_english,machine,title,author,root_tuple,hyperlink,with_bib,bib_style='',bib_path='',extra_content='',created_date=datetime.date.today(),is_titlepage=False,title_page_content):
    path_at_node = dirtree.get_path_at_this_node(root_tuple[2],root_tuple[0])
    root_file_obj = open(os.path.join(path_at_node,'M-L0.tex'),'w')
 
@@ -159,7 +162,10 @@ def create_master_root(is_english,machine,title,author,root_tuple,hyperlink,with
       root_file_obj.write('\\usepackage{hyperref}\n')
       root_file_obj.write('\\hypersetup{linktocpage}\n')    # Not 100% correct. Will make adjustments here on better hyperref settings later but for now this works.
    root_begin_doc(root_file_obj)
-   root_title(is_english,title,author,root_file_obj,created_date)
+   if is_titlepage:
+      root_file_obj.write('{0}'.format(title_page_content))
+   else:
+      root_title(is_english,title,author,root_file_obj,created_date)
    root_body(root_tuple[2],root_tuple[0],root_tuple[3],root_file_obj)
    root_end(root_file_obj)
 
