@@ -63,6 +63,10 @@
       integrity of the document. Please click this <a href="#dirstructure">link</a> to go to the section describing directory structure.</li>
     </ul>
   </li>
+  <li>Example usage (assumed that you have created a structure outlined in <a href="#dirstructure">Directory Structure</a> section)</li>
+  <ul>
+    <li><code>pytexarchiver.py --preamble "$(<preamble_filename)" --title-page "$(<titlepage_filename)" --bib --bib-style "chem-acs" --bib-fullpath "your-path-to-bib-file"</code></li>
+  </ul>
 </ul>
 
 <h2 id="dirstructure">Directory Structure</h2>
@@ -100,6 +104,7 @@
     └── L2-1.tex <br />
   </div>
   </li>
+  <li><code>pytexarchiver</code> has to be compiled at the root directory of your document ONLY.</li>
 </ul>
 
 <h2 id="opensource">Open Source Policies</h2>
