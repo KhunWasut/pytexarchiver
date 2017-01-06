@@ -1,18 +1,15 @@
 #!/usr/bin/env python3
 
-# LAST UPDATED: April 7, 2016
-# CHANGELOG(S): Add --extra option for extra contents (document-specific) to be put into the preamble 
-#               by the mean of plain text file at RDD. For now I will still keep --bib and -l options 
-#               but with --extra option, it's possible to eliminate these two options altogether.
+# LAST UPDATED: JANUARY 5, 2017
 
 import argparse
 import os,re,sys
 import datetime
 import subprocess as sp
 
-#sys.path.append(os.environ['HOME']+'/Codes/Python/Modules')
-
 from latexpython import dirtree,master_generators,process,exceptions
+
+
 Node = dirtree.Node
 
 # Building directory tree on the fly according to my idea
@@ -26,7 +23,8 @@ parser = argparse.ArgumentParser(description='Search a structured LaTeX document
       their relationships, as well as generate master .tex files that govern each level of directories and compile them into a .pdf file, all in a single step! \
       Great for creating and organizing large and complex documents that need constant reviews or edits.')
 
-#parser.add_argument('-m','--machine',action='store',dest='machine',help='The 3-letter code of the machine compiling the document (OSX/LNX/WIN)',default='')
+parser.add_argument('--document-type',action='store',dest='document_type',help='Specify LaTeX document type',default='')
+parser.add_argument('--fz','--font-size',action='store',dest='font_size',help='Standard font size of the document',default='')
 parser.add_argument('-t','--title',action='store',dest='title',help='Your document\'s title',default='')
 parser.add_argument('-p','--tex-prefix',action='store',dest='tex_prefix',help='The prefix name for your LaTeX document',default='M-L0')
 parser.add_argument('-a','--author',action='store',dest='author',help='The author\'s name',default='Wasut \'Khun\' Pornpatcharapong')
@@ -44,7 +42,8 @@ args = parser.parse_args()
 
 # Collecting variables
 author = args.author
-#machine = args.machine
+doc_type = args.document_type
+font_size = args.font_size
 tex_prefix = args.tex_prefix
 is_english = args.is_english
 is_book = args.is_book
@@ -117,7 +116,7 @@ nodes_info = dir_tree.get_node_relations(dir_tree.root)
 # generator methods now take bib_style and bib_path as argument.
 # For simplicity, this update only supports one bib file.
 if not is_book:
-   master_generators.generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,with_bib,bib_style,bib_path,preamble,created_date)
+   master_generators.generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,doc_type,font_size,with_bib,bib_style,bib_path,preamble,created_date)
 else:
    master_generators.generator_book(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,with_bib,bib_style,bib_path,preamble,created_date)
 
