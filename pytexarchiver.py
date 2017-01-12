@@ -24,14 +24,12 @@ parser = argparse.ArgumentParser(description='Search a structured LaTeX document
       Great for creating and organizing large and complex documents that need constant reviews or edits.')
 
 parser.add_argument('--document-type',action='store',dest='document_type',help='The whole "documentclass" line goes here',default='')
-parser.add_argument('--fz','--font-size',action='store',dest='font_size',help='Standard font size of the document',default='')
 parser.add_argument('-t','--title',action='store',dest='title',help='Your document\'s title',default='')
 parser.add_argument('-p','--tex-prefix',action='store',dest='tex_prefix',help='The prefix name for your LaTeX document',default='M-L0')
 parser.add_argument('-a','--author',action='store',dest='author',help='The author\'s name',default='Wasut \'Khun\' Pornpatcharapong')
 parser.add_argument('-d','--date',action='store',dest='created_date',help='The original created date of the document',default='0')
 parser.add_argument('-l','--link',action='store_true',dest='hyperlink',help='Enable hyperlink in the document',default=False)
 parser.add_argument('--tp','--title-page',action='store',dest='title_page',help='Parse your own title page.',default='')
-parser.add_argument('--book',action='store_true',dest='is_book',help='Use this flag to compile the document as a book',default=False)
 parser.add_argument('--bib',action='store_true',dest='with_bib',help='Use this flag to compile the document with bibliography',default=False)
 parser.add_argument('--bib-style',action='store',dest='bib_style',help='Enter bib style (biblatex format)',default='')
 parser.add_argument('--bib-fullpath',action='store',dest='bib_path',help='This must be specified if the --bib flag is toggled on.',default='')
@@ -43,10 +41,8 @@ args = parser.parse_args()
 # Collecting variables
 author = args.author
 doc_type = args.document_type
-font_size = args.font_size
 tex_prefix = args.tex_prefix
 is_english = args.is_english
-is_book = args.is_book
 with_bib = args.with_bib
 preamble = args.preamble
 title_page = args.title_page
@@ -65,11 +61,6 @@ hyperlink = args.hyperlink
 if title == '' and title_page == '':
    print('What\'s your document title? Typing in any unicode characters is fine.')
    title = input()
-
-#if (title == '') or (machine == ''):
-#   machine = input('Which machine are you running on? (OSX/LNX/WIN): ')
-#   print('What\'s your document title? Typing in Thai is fine: ')
-#   title = input()
 
 # If the bib flag is toggled on and there are no inputs to the --bib-style field or the --bib-fullpath entry, prompt the user!!
 # This design choice is made because in the situation where we work with multiple machines, paths can be different and users have to specify them explicitly.
@@ -115,9 +106,6 @@ nodes_info = dir_tree.get_node_relations(dir_tree.root)
 
 # generator methods now take bib_style and bib_path as argument.
 # For simplicity, this update only supports one bib file.
-if not is_book:
-   master_generators.generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,doc_type,font_size,with_bib,bib_style,bib_path,preamble,created_date)
-else:
-   master_generators.generator_book(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,with_bib,bib_style,bib_path,preamble,created_date)
+master_generators.generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,doc_type,with_bib,bib_style,bib_path,preamble,created_date)
 
 process.compile_doc(is_english,dir_tree.root.val,with_bib,tex_prefix+'.pdf')
