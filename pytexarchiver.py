@@ -23,7 +23,7 @@ parser = argparse.ArgumentParser(description='Search a structured LaTeX document
       their relationships, as well as generate master .tex files that govern each level of directories and compile them into a .pdf file, all in a single step! \
       Great for creating and organizing large and complex documents that need constant reviews or edits.')
 
-parser.add_argument('--document-type',action='store',dest='document_type',help='Specify LaTeX document type',default='')
+parser.add_argument('--document-type',action='store',dest='document_type',help='The whole "documentclass" line goes here',default='')
 parser.add_argument('--fz','--font-size',action='store',dest='font_size',help='Standard font size of the document',default='')
 parser.add_argument('-t','--title',action='store',dest='title',help='Your document\'s title',default='')
 parser.add_argument('-p','--tex-prefix',action='store',dest='tex_prefix',help='The prefix name for your LaTeX document',default='M-L0')
