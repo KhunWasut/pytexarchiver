@@ -6,6 +6,7 @@ import datetime
 
 thai_month_dict = {1:'มกราคม',2:'กุมภาพันธ์',3:'มีนาคม',4:'เมษายน',5:'พฤษภาคม',6:'มิถุนายน',7:'กรกฎาคม',8:'สิงหาคม',9:'กันยายน',10:'ตุลาคม',11:'พฤศจิกายน',12:'ธันวาคม'}
 
+# Define new root_head to be complelely modular
 
 # Currently hardcode the book format to force it to be one-sided.
 def root_head(file_obj,doc_type,font_size='',is_onesided=True):
@@ -148,7 +149,9 @@ def create_master_root(is_english,title,author,root_tuple,hyperlink,with_bib,tit
    path_at_node = dirtree.get_path_at_this_node(root_tuple[2],root_tuple[0])
    root_file_obj = open(os.path.join(path_at_node,'M-L0.tex'),'w')
 
-   root_head(root_file_obj,doc_type,font_size,is_onesided=True)
+   # doc_type will now be the actual 'documentclass' head
+   root_file_obj.write(doc_type+'\n')
+   #root_head(root_file_obj,doc_type,font_size,is_onesided=True)
    root_file_obj.write(preamble+'\n')
    # PLACEHOLDER FOR EXTRA CONTENTS CODE!!
    if with_bib:
