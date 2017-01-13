@@ -15,7 +15,7 @@ def root_head(file_obj,doc_type,font_size='',is_onesided=True):
       else:
          file_obj.write('\\documentclass[{0}pt]{{{1}}}'.format(font_size,doc_type))
    else:
-      file_obj.write('\\documentclass{{{0}}}\n\n'.format(doctype))
+      file_obj.write('\\documentclass{{{0}}}\n\n'.format(doc_type))
 
 
 def root_book_head(file_obj):
