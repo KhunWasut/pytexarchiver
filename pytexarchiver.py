@@ -31,6 +31,7 @@ parser.add_argument('-d','--date',action='store',dest='created_date',help='The o
 parser.add_argument('-l','--link',action='store_true',dest='hyperlink',help='Enable hyperlink in the document',default=False)
 parser.add_argument('--tp','--title-page',action='store',dest='title_page',help='Parse your own title page.',default='')
 parser.add_argument('--bib',action='store_true',dest='with_bib',help='Use this flag to compile the document with bibliography',default=False)
+parser.add_argument('--bib-engine',action='store',dest='bib_engine',help='Specify bibliography engine (natbib, bibtex, or biblatex)',default='')
 parser.add_argument('--bib-style',action='store',dest='bib_style',help='Enter bib style (biblatex format)',default='')
 parser.add_argument('--bib-fullpath',action='store',dest='bib_path',help='This must be specified if the --bib flag is toggled on.',default='')
 parser.add_argument('--english',action='store_true',dest='is_english',help='Use pdflatex as a compiler with English language documents',default=True)
@@ -51,6 +52,7 @@ title_page = args.title_page
 # Just to make the scheme works first, let's KISS (Keep It Simple and Stupid)!!
 bib_path = args.bib_path
 bib_style = args.bib_style
+bib_engine = args.bib_engine
 title = args.title
 date = args.created_date
 hyperlink = args.hyperlink
@@ -69,9 +71,10 @@ if title == '' and title_page == '':
 # Future edition will include reading system env variable and simply add the root paths
 
 if with_bib and ((bib_style == '') or (bib_path == '')):
-   bib_style = input('Please enter the bibliography style in biblatex format: ')
-   print('Please enter the full path(s) to your .bib file(s). Use commas to separate if there are more than one entries:')
-   bib_path = input()
+   if bib_engine == 'biblatex':
+      bib_style = input('Please enter the bibliography style in biblatex format: ')
+      print('Please enter the full path(s) to your .bib file(s). Use commas to separate if there are more than one entries:')
+      bib_path = input()
 
 # Change created_date into datetime.date format. If not defined, set to today
 # Use my usual YYYYMMDD format
@@ -106,6 +109,6 @@ nodes_info = dir_tree.get_node_relations(dir_tree.root)
 
 # generator methods now take bib_style and bib_path as argument.
 # For simplicity, this update only supports one bib file.
-master_generators.generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,doc_type,with_bib,bib_style,bib_path,preamble,created_date)
+master_generators.generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,doc_type,with_bib,bib_style,bib_engine,bib_path,preamble,created_date)
 
-process.compile_doc(is_english,dir_tree.root.val,with_bib,tex_prefix+'.pdf')
+process.compile_doc(is_english,dir_tree.root.val,with_bib,bib_engine,tex_prefix+'.pdf')
