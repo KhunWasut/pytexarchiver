@@ -60,13 +60,13 @@ def root_body(ancestors_list,current_node,children_list,file_obj):
       if os.path.isfile(path_to_child):
          tex_pattern = re.compile('\.tex$')
          child = re.sub(tex_pattern,'',child)
-         file_obj.write('\\newpage\n')
+         #file_obj.write('\\newpage\n')
          file_obj.write('\\import{{./}}{{{0}}}\n'.format(child))
       elif os.path.isdir(path_to_child):
          level_pattern = re.compile('^L([1-9]|[1-9][0-9])-')
          level_num = eval(level_pattern.search(child).group(1))
          child_master_tex_prefix = 'M-L{0}'.format(level_num)
-         file_obj.write('\\newpage\n')
+         #file_obj.write('\\newpage\n')
          file_obj.write('\\import{{./{0}/}}{{{1}}}\n'.format(child,child_master_tex_prefix))
 
 
