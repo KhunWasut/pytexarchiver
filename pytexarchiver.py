@@ -34,6 +34,7 @@ parser.add_argument('--bib',action='store_true',dest='with_bib',help='Use this f
 parser.add_argument('--bib-engine',action='store',dest='bib_engine',help='Specify bibliography engine (natbib, bibtex, or biblatex)',default='')
 parser.add_argument('--bib-style',action='store',dest='bib_style',help='Enter bib style (biblatex format)',default='')
 parser.add_argument('--bib-fullpath',action='store',dest='bib_path',help='This must be specified if the --bib flag is toggled on.',default='')
+parser.add_argument('--bib-additional-options',action='store',dest='bib_additional_options',help='This must be specified if the --bib flag is toggled on.',default='')
 parser.add_argument('--english',action='store_true',dest='is_english',help='Use pdflatex as a compiler with English language documents',default=True)
 parser.add_argument('--preamble',action='store',dest='preamble',help='Use this flag to add document-specific preambles via a text file',default='')
 parser.add_argument('--thai',action='store_false',dest='is_english',help='Use xelatex as a compiler with Thai language documents',default=True)
@@ -53,6 +54,7 @@ title_page = args.title_page
 bib_path = args.bib_path
 bib_style = args.bib_style
 bib_engine = args.bib_engine
+bib_additional_options = args.bib_additional_options
 title = args.title
 date = args.created_date
 hyperlink = args.hyperlink
@@ -70,11 +72,15 @@ if title == '' and title_page == '':
 # (I'm doing this on OSX and LNX with the $KTEXDIR UNIX variable)
 # Future edition will include reading system env variable and simply add the root paths
 
-if with_bib and ((bib_style == '') or (bib_path == '')):
+if with_bib and ((bib_style == '') or (bib_path == '') or (bib_additional_options == '')):
    if bib_engine == 'biblatex':
       bib_style = input('Please enter the bibliography style in biblatex format: ')
       print('Please enter the full path(s) to your .bib file(s). Use commas to separate if there are more than one entries:')
       bib_path = input()
+      additional_options = input('Any additional bibliography options? (Y/N): ')
+      if additional_options.upper() == 'Y':
+         print('Specify any additional options (e.g. articletitle for chem-acs style). List as LaTeX options separated by commas. Hit enter if none: ')
+         bib_additional_options = input()
 
 # Change created_date into datetime.date format. If not defined, set to today
 # Use my usual YYYYMMDD format
@@ -109,6 +115,6 @@ nodes_info = dir_tree.get_node_relations(dir_tree.root)
 
 # generator methods now take bib_style and bib_path as argument.
 # For simplicity, this update only supports one bib file.
-master_generators.generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,doc_type,with_bib,bib_style,bib_engine,bib_path,preamble,created_date)
+master_generators.generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page,doc_type,with_bib,bib_style,bib_engine,bib_path,bib_additional_options,preamble,created_date)
 
 process.compile_doc(is_english,dir_tree.root.val,with_bib,bib_engine,tex_prefix+'.pdf')

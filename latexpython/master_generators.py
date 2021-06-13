@@ -85,7 +85,7 @@ def non_root_body(ancestors_list,current_node,children_list,file_obj):
          file_obj.write('\\subimport{{./{0}/}}{{{1}}}\n'.format(child,child_master_tex_prefix))
 
 
-def create_master_root(is_english,title,author,root_tuple,hyperlink,with_bib,title_page_content,doc_type,bib_style='',bib_engine='',bib_path='',preamble='',created_date=datetime.date.today(),is_titlepage=False):
+def create_master_root(is_english,title,author,root_tuple,hyperlink,with_bib,title_page_content,doc_type,bib_style='',bib_engine='',bib_path='',bib_additional_options='',preamble='',created_date=datetime.date.today(),is_titlepage=False):
    path_at_node = dirtree.get_path_at_this_node(root_tuple[2],root_tuple[0])
    root_file_obj = open(os.path.join(path_at_node,'M-L0.tex'),'w')
 
@@ -98,8 +98,12 @@ def create_master_root(is_english,title,author,root_tuple,hyperlink,with_bib,tit
       # will make changes here accordingly and please refer to the proposed schemes in the main execution code.
       # Updated: Apr 18, 2018 - Allow the specification of bibliography styles beside using biber
       if bib_engine == 'biblatex':
-        root_file_obj.write('\\usepackage[backend=biber,style={0}]{{biblatex}}\n'.format(bib_style))
-        root_file_obj.write('\\addbibresource{{{0}}}\n'.format(bib_path))
+        if bib_additional_options:
+           root_file_obj.write('\\usepackage[backend=biber,style={0},{1}]{{biblatex}}\n'.format(bib_style,bib_additional_options))
+           root_file_obj.write('\\addbibresource{{{0}}}\n'.format(bib_path))
+        else:
+           root_file_obj.write('\\usepackage[backend=biber,style={0}]{{biblatex}}\n'.format(bib_style))
+           root_file_obj.write('\\addbibresource{{{0}}}\n'.format(bib_path))
       elif bib_engine == 'bibtex':
         # IF USING BIBTEX, NO NEED TO SPECIFY BIB_STYLE AND BIB_PATH (THESE ARE TAKEN CARE OF IN THE BIBLIOGRAPHY PART OF DOCUMENT)
         pass
@@ -128,7 +132,7 @@ def create_master_non_root(node_tuple):
    node_file_obj.close()
 
 
-def generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page_content,doc_type,with_bib,bib_style='',bib_engine='',bib_path='',preamble='',created_date=datetime.date.today()):
+def generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_page_content,doc_type,with_bib,bib_style='',bib_engine='',bib_path='',bib_additional_options='',preamble='',created_date=datetime.date.today()):
    # This is probably the trickiest method here. 'nodes_info' is a result of the information query from the tree and is a list of 4-elem tuples containing info for all nodes.
    # The condition here is traversing all nodes except the leaves
 
@@ -140,4 +144,4 @@ def generator(is_english,title,author,nodes_info,hyperlink,is_titlepage,title_pa
             # Means this is not a root, so simply create a master file
             create_master_non_root(node_tuple)
          else:
-            create_master_root(is_english,title,author,node_tuple,hyperlink,with_bib,title_page_content,doc_type,bib_style,bib_engine,bib_path,preamble,created_date,is_titlepage)
+            create_master_root(is_english,title,author,node_tuple,hyperlink,with_bib,title_page_content,doc_type,bib_style,bib_engine,bib_path,bib_additional_options,preamble,created_date,is_titlepage)
